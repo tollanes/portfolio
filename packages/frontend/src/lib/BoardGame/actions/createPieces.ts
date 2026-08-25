@@ -1,34 +1,26 @@
 "use server";
 
-import { Prisma } from "@prisma/client";
+import { GamePieceInsert, db, gamePieces, games } from "@portfolio/db";
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { and, eq } from "drizzle-orm";
 
-export const createPiecesAction = async (gameId: string, piecesInput: Prisma.GamePieceCreateManyInput[]) => {
+export const createPiecesAction = async (gameId: string, piecesInput: GamePieceInsert[]) => {
   const user = await getSessionPayload();
   if (!user) {
     return;
   }
 
-  const game = await prisma.game.findUnique({
-    where: {
-      id: gameId,
-      ownerId: user.id
-    }
-  });
+  const [game] = await db
+    .select()
+    .from(games)
+    .where(and(eq(games.id, gameId), eq(games.ownerId, user.id)))
+    .limit(1);
 
   if (!game) {
     return;
   }
 
-  await prisma.gamePiece.createMany({
-    data: piecesInput,
-    skipDuplicates: true
-  });
+  await db.insert(gamePieces).values(piecesInput).onConflictDoNothing();
 
-  return prisma.gamePiece.findMany({
-    where: {
-      gameId: gameId
-    }
-  });
+  return db.select().from(gamePieces).where(eq(gamePieces.gameId, gameId));
 };

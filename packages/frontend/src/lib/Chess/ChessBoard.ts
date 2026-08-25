@@ -9,7 +9,7 @@ import Knight from "@lib/Chess/Knight";
 import Queen from "@lib/Chess/Queen";
 import King from "@lib/Chess/King";
 import { createPiecesAction } from "@lib/BoardGame/actions/createPieces";
-import { GamePiece, Prisma } from "@prisma/client";
+import { GamePiece, GamePieceInsert } from "@portfolio/db";
 
 class ChessBoard extends AbstractBoard {
   constructor(gameId: string) {
@@ -55,7 +55,7 @@ class ChessBoard extends AbstractBoard {
 
     // TODO think about moving this
     // Initialize the pieces in the database
-    const newPieces: Prisma.GamePieceCreateManyInput[] = this.boardPieces.map((piece) => {
+    const newPieces: GamePieceInsert[] = this.boardPieces.map((piece) => {
       return {
         gameId: this.gameId,
         xPos: piece.position.x,

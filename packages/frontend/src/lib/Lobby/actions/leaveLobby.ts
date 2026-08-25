@@ -1,7 +1,8 @@
 "use server";
 
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, lobbies, lobbyMembers } from "@portfolio/db";
+import { and, eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { removeLobbyIdCookie } from "@lib/Lobby/lobbyStorage";
 
@@ -16,11 +17,9 @@ export const leaveLobbyAction = async (): Promise<boolean> => {
     return false;
   }
 
-  const lobby = await prisma.lobby.findUnique({
-    where: {
-      id: lobbyId
-    },
-    include: {
+  const lobby = await db.query.lobbies.findFirst({
+    where: eq(lobbies.id, lobbyId),
+    with: {
       lobbyMembers: true
     }
   });
@@ -30,19 +29,11 @@ export const leaveLobbyAction = async (): Promise<boolean> => {
   }
 
   if (lobby.lobbyMembers.find((member) => member.userId === user.id)) {
-    const result = await prisma.lobbyMember.deleteMany({
-      where: {
-        lobbyId: lobby.id,
-        userId: user.id
-      }
-    });
-
-    if (!result) {
-      return false;
-    }
+    await db
+      .delete(lobbyMembers)
+      .where(and(eq(lobbyMembers.lobbyId, lobby.id), eq(lobbyMembers.userId, user.id)));
   }
 
-  // Remove cookie
   removeLobbyIdCookie();
 
   return true;

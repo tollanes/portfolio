@@ -2,7 +2,7 @@
 
 import { registerSchema } from "@components/Auth/schemas/registerSchema";
 import { hashPassword } from "@lib/Auth/hashing";
-import prisma from "@db/prisma";
+import { db, users } from "@portfolio/db";
 import { createSession } from "@lib/Auth/sessions";
 
 export const signUpAction = async (username: string, email: string, password: string) => {
@@ -23,13 +23,14 @@ export const signUpAction = async (username: string, email: string, password: st
   });
 
   try {
-    const user = await prisma.user.create({
-      data: {
+    const [user] = await db
+      .insert(users)
+      .values({
         email: validatedData.data.email,
         username: validatedData.data.username || validatedData.data.email || "",
         password: passwordHash
-      }
-    });
+      })
+      .returning();
 
     console.log("user", user);
 

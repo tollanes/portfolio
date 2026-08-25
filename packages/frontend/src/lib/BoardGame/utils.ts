@@ -1,4 +1,4 @@
-import { GameTypes } from ".prisma/client";
+import { GameTypes } from "@portfolio/db";
 import { createChessGame } from "@lib/Chess/utils/createChessGame";
 
 export const createGame = (gameType: GameTypes, gameId: string) => {

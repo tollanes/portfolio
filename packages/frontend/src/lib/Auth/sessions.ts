@@ -2,7 +2,7 @@ import "server-only";
 
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { User } from "@prisma/client";
+import { User } from "@portfolio/db";
 import { UserSession } from "@lib/Auth/types";
 
 const secretKey = process.env.SESSION_SECRET;

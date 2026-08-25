@@ -10,21 +10,29 @@ This is Andreas’s site. Agents **spar**: options, trade-offs, review, unblocki
 
 1. Restate the decision or the bug in one sentence.
 2. Give two or three real options with costs. Pick a recommendation and say why.
-3. Stop at a spec or a patch he asked for. Do not continue into neighbouring pages, lobby, auth, or chrome.
+3. Stop at a spec or a patch he asked for. Do not continue into neighbouring pages, games, auth, or chrome.
 
 Completion: he can act (write the code, pick an option, or reject it) without the agent having authored the site.
 
-## Chess
+## Product
 
-Keep the existing **board, pieces, move generation, and Three.js scene**. Change hosts and chrome around them.
+**Portfolio** is the public site (editorial landing page). **Minigames** is a subsection of the same Next app: own layout, own routes, own chrome. A **widget** on the portfolio (chess in the corner) is a sprinkle that can open into minigames. It is not the whole product.
 
-Chess on the landing page is a **widget**: a small window (minimized / corner / expanded), not a full-viewport app. It must run with no lobby and no account. Self-play is the default; a visitor can take white.
+Minigames is a **catalog**: chess, checkers, more later. Shared match/room/seats; each game owns rules and rendering.
 
-Lobby, chat, and persisted `Game` rows are a later **match** layer. They subscribe to the same chess session; they do not own it. Do not gate the board on `currentLobby` / `currentGame`.
+A host can point at that subsection later (`/minigames` and `minigames.…` are the same app, not a second codebase).
 
-## Stack
+Build order: [docs/plan.md](docs/plan.md).
 
-Stay on Next.js, R3F, and the current chess classes unless a change is the topic of the conversation. New libraries need a reason he accepted (engine, realtime, persistence). Prefer a local engine on his move gen over dropping in Stockfish.
+**Play is anonymous.** Login is for keeping score, a handle, and claiming history. Every visitor gets a stable **player** id (cookie). Finished matches persist against that id. Clerk sign-in **attaches** the player to a user; it is not required to sit in a seat.
+
+## Stack (accepted)
+
+Next.js app. **Clerk** for claiming a player (portfolio stays public; play routes stay open). **Drizzle** + Postgres for players, finished matches, scores — not live piece positions. Live **two-seat** matches still need a room process (Socket.IO or equivalent); that is not replaced by Drizzle.
+
+Keep the existing chess **board, pieces, move generation, and Three.js scene**. Do not gate the portfolio widget on login. Prefer his move gen for ambient self-play over Stockfish.
+
+Schema and inferred types live in `@portfolio/db` (Drizzle). Clerk replaces custom sessions when that slice is the work.
 
 ## Review
 

@@ -34,9 +34,6 @@
       "@lib/*": [
         "./src/lib/*"
       ],
-      "@db/*": [
-        "./src/lib/Database/*"
-      ],
       "@styles/*": [
         "./src/styles/*"
       ],

@@ -1,6 +1,6 @@
 "use client";
 
-import { Lobby, User } from "@prisma/client";
+import { Lobby, User } from "@portfolio/db";
 import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
 
 const LobbyInfo = ({ lobby, user }: { lobby: Lobby; user: User }) => {

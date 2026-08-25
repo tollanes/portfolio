@@ -1,7 +1,8 @@
 "use server";
 
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, chatMessages } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 import { getLobbyIdCookie } from "@lib/Lobby/lobbyStorage";
 
 export const createLobbyMessageAction = async (message: string) => {
@@ -15,26 +16,29 @@ export const createLobbyMessageAction = async (message: string) => {
     return { error: "createLobbyMessageAction: No lobbyId found" };
   }
 
-  const chatMessage = await prisma.chatMessage.create({
-    data: {
-      user: {
-        connect: {
-          id: user.id
-        }
-      },
-      lobby: {
-        connect: {
-          id: lobbyId
-        }
-      },
-      message: message
-    },
-    select: {
+  const [inserted] = await db
+    .insert(chatMessages)
+    .values({
+      userId: user.id,
+      lobbyId,
+      message
+    })
+    .returning({ id: chatMessages.id });
+
+  if (!inserted) {
+    return { error: "Failed to create chat message" };
+  }
+
+  const chatMessage = await db.query.chatMessages.findFirst({
+    where: eq(chatMessages.id, inserted.id),
+    columns: {
       id: true,
       message: true,
-      createdAt: true,
+      createdAt: true
+    },
+    with: {
       user: {
-        select: {
+        columns: {
           id: true,
           username: true
         }

@@ -1,6 +1,7 @@
 import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, chatMessages } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 
 export const getLobbyMessages = async (lobbyId: string) => {
   const user = await getSessionPayload();
@@ -8,16 +9,16 @@ export const getLobbyMessages = async (lobbyId: string) => {
     return { error: "getLobbyMessagesAction:No user found" };
   }
 
-  const messages = await prisma.chatMessage.findMany({
-    where: {
-      lobbyId: lobbyId
-    },
-    select: {
+  const messages = await db.query.chatMessages.findMany({
+    where: eq(chatMessages.lobbyId, lobbyId),
+    columns: {
       id: true,
       message: true,
-      createdAt: true,
+      createdAt: true
+    },
+    with: {
       user: {
-        select: {
+        columns: {
           id: true,
           username: true
         }

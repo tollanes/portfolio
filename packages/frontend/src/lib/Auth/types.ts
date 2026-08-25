@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "@portfolio/db";
 import { JWTPayload } from "jose";
 
 export type UserSession = User & JWTPayload;

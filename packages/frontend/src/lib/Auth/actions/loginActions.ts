@@ -1,7 +1,8 @@
 "use server";
 
 import { loginSchema } from "@components/Auth/schemas/loginSchema";
-import prisma from "@db/prisma";
+import { db, users } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 import { comparePassword } from "@lib/Auth/hashing";
 import { createSession } from "@lib/Auth/sessions";
 
@@ -12,11 +13,11 @@ export const loginAction = async (email: string, password: string) => {
   }
 
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        email: validatedData.data.email || validatedData.data.username || ""
-      }
-    });
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, validatedData.data.email || validatedData.data.username || ""))
+      .limit(1);
 
     if (!user || !user.password) {
       return { error: { message: "User not found" } };

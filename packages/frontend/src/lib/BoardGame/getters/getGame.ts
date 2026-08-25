@@ -1,6 +1,7 @@
 import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, games } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 
 export const getGame = async (id: string) => {
   const user = await getSessionPayload();
@@ -8,13 +9,11 @@ export const getGame = async (id: string) => {
     return;
   }
 
-  const game = await prisma.game.findUnique({
-    where: {
-      id: id
-    },
-    include: {
+  const game = await db.query.games.findFirst({
+    where: eq(games.id, id),
+    with: {
       lobby: {
-        include: {
+        with: {
           lobbyMembers: true
         }
       },

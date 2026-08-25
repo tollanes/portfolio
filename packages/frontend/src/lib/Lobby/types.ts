@@ -1,4 +1,4 @@
-import { Lobby, LobbyMember, User } from "@prisma/client";
+import { Lobby, LobbyMember, User } from "@portfolio/db";
 
 export type LobbyType = Lobby & {
   password?: string | null;

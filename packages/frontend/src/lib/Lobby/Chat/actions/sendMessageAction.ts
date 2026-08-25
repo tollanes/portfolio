@@ -1,7 +1,7 @@
 "use server";
 
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, chatMessages } from "@portfolio/db";
 
 import { ChatMessageType } from "@lib/Lobby/Chat/types";
 
@@ -11,25 +11,18 @@ export const sendMessageAction = async (lobbyId: string, message: ChatMessageTyp
     return { error: "No user found" };
   }
 
-  const messages = await prisma.chatMessage.create({
-    data: {
-      user: {
-        connect: {
-          id: user.id
-        }
-      },
-      lobby: {
-        connect: {
-          id: lobbyId
-        }
-      },
+  const [created] = await db
+    .insert(chatMessages)
+    .values({
+      userId: user.id,
+      lobbyId,
       message: message.message
-    }
-  });
+    })
+    .returning();
 
-  if (!messages) {
+  if (!created) {
     return { error: "Failed to create chat message" };
   }
 
-  return { messages };
+  return { messages: created };
 };

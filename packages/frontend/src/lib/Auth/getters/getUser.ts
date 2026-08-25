@@ -1,6 +1,7 @@
 import "server-only";
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, users } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 
 export const getUser = async (userId: string) => {
   const userSession = await getSessionPayload();
@@ -9,16 +10,10 @@ export const getUser = async (userId: string) => {
     return null;
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId
-    }
-  });
+  const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
   if (!user) {
     return null;
   }
 
-  user.password = null;
-
-  return user;
+  return { ...user, password: null };
 };

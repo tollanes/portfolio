@@ -2,7 +2,8 @@
 
 import { Vector2 } from "@lib/BoardGame/Position";
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, gameMoves, games } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 
 export const movePieceAction = async (gameId: string, pieceId: number, from: Vector2, to: Vector2) => {
   const user = await getSessionPayload();
@@ -10,15 +11,12 @@ export const movePieceAction = async (gameId: string, pieceId: number, from: Vec
     return;
   }
 
-  // TODO make a function to verify if the user is in the game
-  const game = await prisma.game.findUnique({
-    where: {
-      id: gameId
-    },
-    include: {
+  const game = await db.query.games.findFirst({
+    where: eq(games.id, gameId),
+    with: {
       pieces: true,
       lobby: {
-        include: {
+        with: {
           lobbyMembers: true
         }
       }
@@ -29,24 +27,17 @@ export const movePieceAction = async (gameId: string, pieceId: number, from: Vec
     return;
   }
 
-  const gameMove = await prisma.gameMove.create({
-    data: {
-      user: {
-        connect: {
-          id: user.id
-        }
-      },
-      piece: {
-        connect: {
-          id: pieceId
-        }
-      },
+  const [gameMove] = await db
+    .insert(gameMoves)
+    .values({
+      userId: user.id,
+      pieceId,
       xStart: from.x,
       yStart: from.y,
       xEnd: to.x,
       yEnd: to.y
-    }
-  });
+    })
+    .returning();
 
   if (!gameMove) {
     return;

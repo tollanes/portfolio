@@ -1,7 +1,8 @@
 import "server-only";
 
 import { getSessionPayload } from "@lib/Auth/sessions";
-import prisma from "@db/prisma";
+import { db, lobbies } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 import { LobbyType } from "@lib/Lobby/types";
 
 export const getLobby = async (lobbyId: string): Promise<{ error?: string; lobby?: LobbyType }> => {
@@ -13,13 +14,11 @@ export const getLobby = async (lobbyId: string): Promise<{ error?: string; lobby
     return { error: "No lobbyId found" };
   }
 
-  const lobby: LobbyType | null = await prisma.lobby.findUnique({
-    where: {
-      id: lobbyId
-    },
-    include: {
+  const lobby = await db.query.lobbies.findFirst({
+    where: eq(lobbies.id, lobbyId),
+    with: {
       lobbyMembers: {
-        include: {
+        with: {
           user: true
         }
       }
@@ -30,13 +29,14 @@ export const getLobby = async (lobbyId: string): Promise<{ error?: string; lobby
     return { error: "Failed to find lobby" };
   }
 
-  delete (lobby as any).password;
-  for (const member of lobby.lobbyMembers) {
-    delete (member as any).user.password;
+  const result = lobby as LobbyType;
+  delete (result as { password?: string | null }).password;
+  for (const member of result.lobbyMembers) {
+    member.user.password = null;
   }
 
-  if (lobby.lobbyMembers.find((member) => member.userId === user.id)) {
-    return { lobby };
+  if (result.lobbyMembers.find((member) => member.userId === user.id)) {
+    return { lobby: result };
   }
 
   return { error: "User not found in lobby" };

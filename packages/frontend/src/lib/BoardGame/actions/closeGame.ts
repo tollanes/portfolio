@@ -1,7 +1,7 @@
 "use server";
 
-import prisma from "@db/prisma";
-import { GameStatus } from "@prisma/client";
+import { db, games, GameStatus } from "@portfolio/db";
+import { and, eq } from "drizzle-orm";
 import { getSessionPayload } from "@lib/Auth/sessions";
 
 export const closeGameAction = async (gameId: string) => {
@@ -10,14 +10,14 @@ export const closeGameAction = async (gameId: string) => {
     return false;
   }
 
-  return prisma.game.update({
-    where: {
-      id: gameId,
-      ownerId: user.id
-    },
-    data: {
-      finishedAt: new Date().toISOString(),
+  const [game] = await db
+    .update(games)
+    .set({
+      finishedAt: new Date(),
       status: GameStatus.finished
-    }
-  });
+    })
+    .where(and(eq(games.id, gameId), eq(games.ownerId, user.id)))
+    .returning();
+
+  return game;
 };

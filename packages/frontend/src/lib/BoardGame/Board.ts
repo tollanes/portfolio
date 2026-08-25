@@ -2,7 +2,7 @@ import { Tile, AbstractTile } from "@lib/BoardGame/Tile";
 import { Position, BoardPosition } from "@lib/BoardGame/Position";
 import { Piece } from "@lib/BoardGame/Piece";
 import { action, makeObservable, observable } from "mobx";
-import { GamePiece } from "@prisma/client";
+import { GamePiece } from "@portfolio/db";
 
 export interface Board {
   get width(): number;

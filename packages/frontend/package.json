@@ -9,19 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.10.0",
-    "@prisma/client": "^7.10.0",
+    "@portfolio/db": "workspace:*",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
     "bcrypt": "^6.0.0",
-    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.44.5",
     "jose": "^6.2.10",
-    "kysely": "^0.29.5",
     "mobx": "^7.0.3",
     "mobx-react-lite": "^5.0.3",
     "next": "16.3.3",
     "pg": "^8.23.0",
-    "prisma-kysely": "^3.2.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "^0.0.1",
@@ -45,7 +42,6 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "16.3.3",
     "prettier": "^3.9.6",
-    "prisma": "^7.10.0",
     "sass": "^1.103.1"
   },
   "resolutions": {

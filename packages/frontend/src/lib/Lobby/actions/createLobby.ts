@@ -2,7 +2,8 @@
 
 import { getSessionPayload } from "@lib/Auth/sessions";
 import { hashPassword } from "@lib/Auth/hashing";
-import prisma from "@db/prisma";
+import { db, lobbies, lobbyMembers } from "@portfolio/db";
+import { eq } from "drizzle-orm";
 import { saveLobbyIdCookie } from "@lib/Lobby/lobbyStorage";
 import { LobbyType } from "@lib/Lobby/types";
 
@@ -18,52 +19,30 @@ export const createLobbyAction = async (name: string, password: string) => {
 
     const hashedPassword = hashPassword(password);
 
-    console.log(
-      JSON.stringify({
-        data: {
-          name: name,
-          password: hashedPassword,
+    const lobby = await db.transaction(async (tx) => {
+      const [created] = await tx
+        .insert(lobbies)
+        .values({
+          name,
+          password: hashedPassword
+        })
+        .returning();
+
+      await tx.insert(lobbyMembers).values({
+        lobbyId: created.id,
+        userId: user.id
+      });
+
+      return tx.query.lobbies.findFirst({
+        where: eq(lobbies.id, created.id),
+        with: {
           lobbyMembers: {
-            create: {
-              user: {
-                connect: {
-                  id: user.id
-                }
-              }
-            }
-          }
-        },
-        include: {
-          lobbyMembers: {
-            include: {
+            with: {
               user: true
             }
           }
         }
-      })
-    );
-
-    const lobby: LobbyType = await prisma.lobby.create({
-      data: {
-        name: name,
-        password: hashedPassword,
-        lobbyMembers: {
-          create: {
-            user: {
-              connect: {
-                id: user.id
-              }
-            }
-          }
-        }
-      },
-      include: {
-        lobbyMembers: {
-          include: {
-            user: true
-          }
-        }
-      }
+      });
     });
 
     if (!lobby) {
@@ -72,15 +51,15 @@ export const createLobbyAction = async (name: string, password: string) => {
 
     console.log(lobby);
 
-    // Save lobby ID to cookie as secure https-only cookie
     await saveLobbyIdCookie(lobby.id.toString());
 
-    delete (lobby as any).password;
-    for (const member of lobby.lobbyMembers) {
-      delete (member as any).user.password;
+    const result = lobby as LobbyType;
+    delete (result as { password?: string | null }).password;
+    for (const member of result.lobbyMembers) {
+      member.user.password = null;
     }
 
-    return { lobby };
+    return { lobby: result };
   } catch (error) {
     console.error(error);
     return { error: error };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useLobbyStore } from "@lib/Lobby/stores/lobbyStore";
-import { GameTypes } from "@prisma/client";
+import { GameTypes } from "@portfolio/db";
 import { useState } from "react";
 
 const CreateGameForm = () => {
