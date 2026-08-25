@@ -1,7 +1,7 @@
 "use client";
 
-import { GLTF } from "three-stdlib";
-import { Ref } from "react";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { ReactNode, Ref } from "react";
 import { ObjectMap, ThreeEvent } from "@react-three/fiber";
 import { Vector3, Euler, Mesh, Material, Group } from "three";
 import { observer } from "mobx-react-lite";
@@ -23,7 +23,7 @@ const StandardMesh = observer(
     onPointerOver?: (e: any) => void;
     onPointerOut?: (e: any) => void;
     onClick?: (e: ThreeEvent<MouseEvent>) => void;
-    children?: JSX.Element | JSX.Element[];
+    children?: ReactNode;
     gltf: GLTF & ObjectMap;
     material?: Material;
     position?: Vector3;

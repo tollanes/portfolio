@@ -8,10 +8,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "express": "^4.21.1",
-    "socket.io": "^4.8.0"
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.3.0",
+    "typescript": "6.0.3"
   }
 }

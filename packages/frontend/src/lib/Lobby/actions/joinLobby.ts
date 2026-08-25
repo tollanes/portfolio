@@ -11,7 +11,7 @@ export const joinLobbyAction = async (name: string, password: string) => {
     return;
   }
 
-  const lobby = await prisma.lobby.findUnique({
+  const lobby = await prisma.lobby.findFirst({
     where: {
       name: name
     },

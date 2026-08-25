@@ -2,9 +2,9 @@
 
 import styles from "@styles/Renderer.module.scss";
 import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
-const Renderer = ({ children }: { children?: JSX.Element | JSX.Element[] }) => {
+const Renderer = ({ children }: { children?: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleClick = () => {

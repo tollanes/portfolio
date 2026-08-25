@@ -28,7 +28,7 @@ export const getGame = async (id: string) => {
     return;
   }
 
-  if (game.lobby.lobbyMembers.find((member) => member.userId === user.id)) {
+  if (game.lobby?.lobbyMembers.find((member) => member.userId === user.id)) {
     return game;
   }
 };

@@ -12,10 +12,10 @@
     "packages/*"
   ],
   "devDependencies": {
-    "lerna": "^7.4.2"
+    "lerna": "^10.0.1"
   },
   "packageManager": "yarn@4.5.3",
   "dependencies": {
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.15"
   }
 }

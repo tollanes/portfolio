@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { getSessionPayload } from "@lib/Auth/sessions";
 import prisma from "@db/prisma";
 
-export const createPiecesAction = async (gameId: string, pieces: Prisma.GamePieceCreateManyInput[]) => {
+export const createPiecesAction = async (gameId: string, piecesInput: Prisma.GamePieceCreateManyInput[]) => {
   const user = await getSessionPayload();
   if (!user) {
     return;
@@ -21,8 +21,8 @@ export const createPiecesAction = async (gameId: string, pieces: Prisma.GamePiec
     return;
   }
 
-  const pieces = await prisma.gamePiece.createMany({
-    data: pieces,
+  await prisma.gamePiece.createMany({
+    data: piecesInput,
     skipDuplicates: true
   });
 

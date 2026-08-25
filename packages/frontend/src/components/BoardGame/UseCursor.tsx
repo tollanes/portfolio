@@ -3,7 +3,7 @@ import { Group, Raycaster, Vector3 } from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 
 const useCursor = () => {
-  const meshRef = useRef<Group>();
+  const meshRef = useRef<Group>(null);
   const [selected, setSelected] = useState(false);
   const { camera, mouse } = useThree();
   const cursorPosition = new Vector3();

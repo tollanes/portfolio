@@ -10,7 +10,7 @@ export const createLobbyMessageAction = async (message: string) => {
     return { error: "createLobbyMessageAction: No user found" };
   }
 
-  const lobbyId = getLobbyIdCookie();
+  const lobbyId = await getLobbyIdCookie();
   if (!lobbyId) {
     return { error: "createLobbyMessageAction: No lobbyId found" };
   }
