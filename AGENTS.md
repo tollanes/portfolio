@@ -22,7 +22,7 @@ Minigames is a **catalog**: chess, checkers, more later. Shared match/room/seats
 
 A host can point at that subsection later (`/minigames` and `minigames.…` are the same app, not a second codebase).
 
-Build order: [docs/plan.md](docs/plan.md).
+**Secrets** — `.secrets/` is local and gitignored. When sequencing work, reshaping games or session, or choosing persistence, list that directory and read the matching notes. Do not skip it because search ignores it.
 
 **Play is anonymous.** Login is for keeping score, a handle, and claiming history. Every visitor gets a stable **player** id (cookie). Finished matches persist against that id. Clerk sign-in **attaches** the player to a user; it is not required to sit in a seat.
 

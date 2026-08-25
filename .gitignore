@@ -263,6 +263,8 @@ dmypy.json
 cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/node,python
+.secrets/
+
 .history/
 packages/frontend/src/.DS_Store
 packages/frontend/.env.local
