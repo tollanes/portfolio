@@ -18,30 +18,27 @@ const Nav = ({ user }: { user?: UserSession | null }) => {
 
   return (
     <nav className={styles.nav}>
-      <ul className={styles.navItems}>
-        <li className={styles.navItem}>
-          <Link href="/">Home</Link>
-        </li>
-        {user ? (
-          <>
-            <li className={styles.navItem}>
-              <a onClick={(e) => handleSignOut(e)}>Logout</a>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/auth/profile">Profile {user?.username || user.email}</Link>
-            </li>
-          </>
-        ) : (
-          <>
-            <li className={styles.navItem}>
-              <Link href="/auth/login">Login</Link>
-            </li>
-            <li className={styles.navItem}>
-              <Link href="/auth/signup">Signup</Link>
-            </li>
-          </>
-        )}
-      </ul>
+      <div className={styles.navContent}>
+        <Link className={styles.navLogo} href="/">
+          Andreas Tollånes
+        </Link>
+
+        <ul className={styles.navItems}>
+          <li className={styles.navItem}>
+            <Link href="/">Work</Link>
+          </li>
+          <li className={styles.navItem}>
+            <Link href="/3d">3D</Link>
+          </li>
+          <li className={styles.navItem}>
+            <Link href="/about">About</Link>
+          </li>
+
+          <li>
+            <a href="mailto:andreas@tollanes.dev">andreas@tollanes.dev</a>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };

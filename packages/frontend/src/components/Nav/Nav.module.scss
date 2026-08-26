@@ -1,30 +1,40 @@
 @use "@styles/variables" as *;
 
-
 .nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  z-index: 100;
 
-    background-color: $base-light;
+  border-bottom: 2px solid $secondary;
+}
+
+.navContent {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1620px;
+}
+
+.navLogo {
+  font-weight: bold;
+  margin-right: auto;
 }
 
 .navItems {
-    display: flex;
-    align-items: center;
-    width: 40%;
+  display: flex;
+  align-items: center;
+  list-style: none;
 
-    list-style: none;
-
-    color: $base
+  color: $base;
 }
 
 .navItem {
-    margin-right: 2rem;
+  margin-right: 2rem;
 }
