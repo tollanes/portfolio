@@ -1,28 +1,186 @@
 @forward "normalize";
 @forward "Forms";
 
-@use "variables" as *;
+/* ══════════════════════════════════════════════════════════════════════════
+   Modernist — the design system this site is built from.
+
+   Flat and architectural, set entirely in Archivo: a near-mono red on a light
+   ground, a visible grid, zero corner radius and strong 2px rules. Nothing
+   floats and nothing is decorated — alignment and the weight of the dividers
+   do the organising, and everything sits flush left.
+
+   Take every colour, size and space from these variables. Do not hard-code a
+   hex or a font name a token already carries.
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-text: #201e1d;
+  --color-accent: #ec3013;
+  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role carries the same visual weight. Light steps
+     (100–300) tint fills and hovers, 500 is the base, dark steps (700–900)
+     carry text on tinted fills and pressed states. */
+  --color-neutral-100: #f8f4f4;
+  --color-neutral-200: #eae7e7;
+  --color-neutral-300: #d7d3d3;
+  --color-neutral-400: #bab6b6;
+  --color-neutral-500: #9b9797;
+  --color-neutral-600: #7d7979;
+  --color-neutral-700: #605d5d;
+  --color-neutral-800: #444141;
+  --color-neutral-900: #2d2b2b;
+
+  --color-accent-100: #fff2ef;
+  --color-accent-200: #ffe0d9;
+  --color-accent-300: #ffc4b8;
+  --color-accent-400: #ff9783;
+  --color-accent-500: #ff563c;
+  --color-accent-600: #dd2b0f;
+  --color-accent-700: #ae1800;
+  --color-accent-800: #7c1405;
+  --color-accent-900: #4d170e;
+
+  /* Copy tones. The system has no separate grey for text — body copy is the
+     ink at reduced strength, which keeps it in the same family as the rules. */
+  --color-text-82: color-mix(in srgb, var(--color-text) 82%, transparent);
+  --color-text-78: color-mix(in srgb, var(--color-text) 78%, transparent);
+  --color-text-70: color-mix(in srgb, var(--color-text) 70%, transparent);
+  --color-text-60: color-mix(in srgb, var(--color-text) 60%, transparent);
+  --color-text-55: color-mix(in srgb, var(--color-text) 55%, transparent);
+
+  /* --font-archivo is injected by next/font in the root layout. */
+  --font-heading: var(--font-archivo), system-ui, sans-serif;
+  --font-heading-weight: 800;
+  --font-body: var(--font-archivo), system-ui, sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Zero on purpose. Do not round a corner anywhere. */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2d2b2b 22%, transparent);
+
+  /* The editorial column, and the right gutter that reserves room for the
+     chess widget in the corner. See the page-column mixin in variables.scss. */
+  --page-width: 1160px;
+  --page-gutter: 24px;
+  --widget-reserve: 324px;
+  --widget-from: 900px;
+
+  /* Aliases the pre-existing auth and lobby chrome reads. */
+  --color-primary: var(--color-accent);
+  --color-primary-dark: var(--color-accent-600);
+  --color-white: var(--color-bg);
+}
 
 * {
   min-width: 0;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: "Archivo", system-ui, sans-serif;
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-size: 42px;
+}
+h2 {
+  font-size: 32px;
+}
+h3 {
+  font-size: 25px;
+}
+h4 {
+  font-size: 20px;
+}
+h5 {
   font-size: 16px;
-  line-height: 1.5;
-  color: rgb(32, 30, 29);
-  background-color: rgb(243, 242, 242);
+}
+h6 {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+p {
+  margin: 0 0 var(--space-3);
 }
 
 a {
+  color: var(--color-accent);
   text-decoration: none;
-  color: inherit;
+  text-underline-offset: 3px;
 
   &:hover {
-    cursor: pointer;
-    color: gray;
+    color: var(--color-accent-700);
   }
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+figure {
+  margin: 0;
+}
+
+/* Interaction states are themed, never browser defaults. */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+/* Every content photograph goes through this. Renders in the 3D gallery are
+   the exception — that work is the colour. */
+.grayscale {
+  filter: grayscale(1) contrast(1.08);
 }
 
 .btn {
@@ -30,14 +188,14 @@ a {
   padding: 0.5rem 1rem;
   margin: 0.5rem 0;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: var(--radius-md);
   background-color: var(--color-primary);
   color: var(--color-white);
   font-size: 1rem;
   font-weight: 700;
   text-align: center;
   text-decoration: none;
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 
   &:hover {
     cursor: pointer;

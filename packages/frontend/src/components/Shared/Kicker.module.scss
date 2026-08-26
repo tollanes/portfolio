@@ -1,0 +1,17 @@
+.kicker {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  // The accent itself is only tuned to 3:1 against the ground, so label-size
+  // type in it takes a deep ramp step instead.
+  color: var(--color-accent-700);
+}
+
+.sm {
+  font-size: 11px;
+  letter-spacing: 0.09em;
+}

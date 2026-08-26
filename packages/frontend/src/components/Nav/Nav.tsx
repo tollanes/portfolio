@@ -1,46 +1,29 @@
-"use client";
+import Link from "next/link";
 
 import styles from "./Nav.module.scss";
-import Link from "next/link";
-import { MouseEvent } from "react";
-import { useRouter } from "next/navigation";
-import { signOutAction } from "@lib/Auth/actions/signOutAction";
-import { UserSession } from "@lib/Auth/types";
+import Button from "@components/Shared/Button";
+import { profile } from "@lib/portfolio/profile";
 
-const Nav = ({ user }: { user?: UserSession | null }) => {
-  const router = useRouter();
+const Nav = () => (
+  <nav className={styles.nav}>
+    <Link className={styles.brand} href="/">
+      {profile.shortName}
+    </Link>
 
-  const handleSignOut = async (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    await signOutAction();
-    router.refresh();
-  };
+    <Link className={styles.link} href="/">
+      Work
+    </Link>
+    <Link className={styles.link} href="/3d">
+      3D
+    </Link>
+    <Link className={styles.link} href="/about">
+      About
+    </Link>
 
-  return (
-    <nav className={styles.nav}>
-      <div className={styles.navContent}>
-        <Link className={styles.navLogo} href="/">
-          Andreas Tollånes
-        </Link>
-
-        <ul className={styles.navItems}>
-          <li className={styles.navItem}>
-            <Link href="/">Work</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/3d">3D</Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/about">About</Link>
-          </li>
-
-          <li>
-            <a href="mailto:andreas@tollanes.dev">andreas@tollanes.dev</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  );
-};
+    <Button variant="primary" href={`mailto:${profile.email}`}>
+      {profile.email}
+    </Button>
+  </nav>
+);
 
 export default Nav;

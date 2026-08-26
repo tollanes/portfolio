@@ -1,0 +1,14 @@
+@use "@styles/variables" as *;
+
+.footer {
+  font-size: 13px;
+  color: var(--color-text-70);
+}
+
+.inner {
+  @include page-column;
+  @include rule(top);
+
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}

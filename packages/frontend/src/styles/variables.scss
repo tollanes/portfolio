@@ -1,5 +1,44 @@
+// Lobby chrome still reads these. The portfolio takes its colours from the
+// design-system custom properties in globals.scss instead.
 $base: #607274;
 $base-light: #faeed1;
 
 $secondary: #999897c4;
 $secondary-light: #e6e6e6bd;
+
+/// The editorial column every portfolio page sits in.
+///
+/// The right gutter is not symmetric: it widens to reserve room for the chess
+/// widget in the bottom-right corner, then collapses back to the normal gutter
+/// once the viewport is wide enough that the widget clears the column anyway.
+/// Below --widget-from the reserve drops out entirely and the widget is allowed
+/// to overlap, because there is no room to give it.
+@mixin page-column {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-left: var(--page-gutter);
+  padding-right: max(
+    var(--page-gutter),
+    min(
+      var(--widget-reserve),
+      calc(var(--widget-reserve) - (100vw - var(--page-width)) / 2),
+      calc((100vw - var(--widget-from)) * 999)
+    )
+  );
+}
+
+/// A section label: small, uppercase, accent. The deep ramp step is
+/// deliberate — the accent itself is only tuned to 3:1 against the ground.
+@mixin kicker($size: 13px) {
+  margin: 0;
+  font-size: $size;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+
+/// The 2px rule that separates major sections.
+@mixin rule($side: top) {
+  border-#{$side}: 2px solid var(--color-divider);
+}

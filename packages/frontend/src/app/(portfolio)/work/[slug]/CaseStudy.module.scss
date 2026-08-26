@@ -1,0 +1,113 @@
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-8);
+  padding: 36px 0;
+}
+
+.factLabel {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-60);
+}
+
+.factValue {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+/* A heading in a fixed left column, the prose beside it. */
+.prose {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 24px clamp(24px, 5vw, 72px);
+  padding: 56px 0;
+}
+
+.proseHeading {
+  flex: 0 0 200px;
+  margin: 0;
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.proseBody {
+  flex: 1 1 400px;
+  max-width: 60ch;
+
+  p {
+    margin: 0;
+    font-size: 16.5px;
+    line-height: 29px;
+  }
+
+  p + p {
+    margin-top: 20px;
+  }
+}
+
+.plate {
+  padding: 32px 0;
+
+  &:first-of-type {
+    padding-top: 48px;
+  }
+}
+
+.screenshot {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-divider);
+}
+
+.caption {
+  margin-top: var(--space-2);
+  font-size: 11px;
+  color: var(--color-text-55);
+}
+
+/* Cells held open for imagery that has not arrived yet. */
+.slots {
+  padding: 48px 0;
+}
+
+.slotsNote {
+  margin: var(--space-2) 0 var(--space-6);
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text-70);
+}
+
+.slotsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2px;
+  background: var(--color-divider);
+}
+
+.slot {
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: var(--slot-ratio);
+  padding: var(--space-4);
+  background: var(--color-neutral-200);
+}
+
+.slotLabel {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-55);
+}
+
+.next {
+  padding: 0 0 40px;
+}

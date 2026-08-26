@@ -1,93 +1,103 @@
-$ink: #1a1a1a;
-$muted: #9a958e;
-$line: #e2ded7;
-$accent: #e5300c;
-$paper: #ffffff;
-
+// The corner dock. Nothing floats in this system, so the widget is pinned into
+// the corner and drawn with the same 2px rules as the page — no offset, no
+// shadow, no radius. Its width is what the page's right gutter reserves room
+// for, so the two have to stay in step.
 .widget {
   position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
+  right: 0;
+  bottom: 0;
   z-index: 20;
-  color: $ink;
+  color: var(--color-text);
 }
 
 .label {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  gap: var(--space-2);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .marker {
-  width: 0.625rem;
-  height: 0.625rem;
-  border: 1px solid $ink;
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border: 1px solid var(--color-text);
 
   &.white {
-    background: $paper;
+    background: var(--color-neutral-100);
   }
 
   &.black {
-    background: $ink;
+    background: var(--color-text);
   }
 
   &.over {
-    background: $accent;
-    border-color: $accent;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 }
 
 .action {
-  border: 0;
   padding: 0;
+  border: 0;
   background: none;
-  cursor: pointer;
   font: inherit;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: $muted;
+  white-space: nowrap;
+  color: var(--color-text-60);
+  cursor: pointer;
 
   &:hover {
-    color: $ink;
+    color: var(--color-text);
   }
 
   &.strong {
-    color: $accent;
+    color: var(--color-accent);
+
+    &:hover {
+      color: var(--color-accent-700);
+    }
   }
 }
 
 .hint {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: $muted;
+  white-space: nowrap;
+  color: var(--color-text-60);
+}
+
+.collapsed,
+.panel {
+  background: var(--color-bg);
+  border-top: 2px solid var(--color-divider);
+  border-left: 2px solid var(--color-divider);
 }
 
 .collapsed {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 0.6rem 0.9rem;
-  background: $paper;
-  border: 1px solid $line;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: min(176px, 100vw);
+  padding: 7px 10px;
   cursor: pointer;
 }
 
 .panel {
   display: flex;
   flex-direction: column;
-  width: min(38rem, calc(100vw - 3rem));
-  background: $paper;
-  border: 1px solid $line;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+  width: min(300px, 100vw);
 }
 
 .header,
@@ -95,20 +105,19 @@ $paper: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
+  gap: var(--space-2);
+  padding: 7px 10px;
 }
 
 .header {
-  border-bottom: 1px solid $line;
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .footer {
-  border-top: 1px solid $line;
+  border-top: 1px solid var(--color-divider);
 }
 
 .board {
-  aspect-ratio: 4 / 3;
-  max-height: 60vh;
-  background: #f4f2ef;
+  aspect-ratio: 10 / 9;
+  background: var(--color-surface);
 }

@@ -1,31 +1,23 @@
-// TODO: these live here until the portfolio palette moves into variables.scss
-$accent: #ee3124;
-$accent-dark: #cc2715;
-$ink: #16181d;
-$line: #c9c6c1;
-$paper: #ffffff;
-
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem 1.1rem;
+  gap: 6px;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
   border: 1px solid transparent;
-  font: inherit;
-  font-size: 0.875rem;
-  font-weight: 700;
-  line-height: 1;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: var(--font-heading-weight);
+  line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
     color 0.15s ease;
-
-  &:focus-visible {
-    outline: 2px solid $accent;
-    outline-offset: 2px;
-  }
 
   &:disabled {
     opacity: 0.45;
@@ -34,31 +26,44 @@ $paper: #ffffff;
 }
 
 .primary {
-  background: $accent;
-  color: $paper;
+  background: var(--color-accent);
+  color: var(--color-bg);
 
   &:hover:not(:disabled) {
-    background: $accent-dark;
+    background: var(--color-accent-600);
+    color: var(--color-bg);
+  }
+
+  &:active:not(:disabled) {
+    background: var(--color-accent-700);
   }
 }
 
 .secondary {
-  background: $paper;
-  border-color: $line;
-  color: $ink;
+  border-color: var(--color-divider);
+  color: var(--color-text);
 
   &:hover:not(:disabled) {
-    border-color: $ink;
+    background: color-mix(in srgb, var(--color-text) 7%, transparent);
+    color: var(--color-text);
+  }
+
+  &:active:not(:disabled) {
+    background: color-mix(in srgb, var(--color-text) 14%, transparent);
   }
 }
 
+/** On the accent band, where the ground is red and the ink is the paper. */
 .inverse {
-  background: transparent;
-  border-color: $paper;
-  color: $paper;
+  border-color: var(--color-bg);
+  color: var(--color-bg);
 
   &:hover:not(:disabled) {
-    background: $paper;
-    color: $accent;
+    background: var(--color-bg);
+    color: var(--color-accent-700);
+  }
+
+  &:focus-visible {
+    outline-color: var(--color-bg);
   }
 }

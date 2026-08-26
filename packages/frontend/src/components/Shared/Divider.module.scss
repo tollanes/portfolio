@@ -1,6 +1,5 @@
-@use "@styles/variables" as *;
-
 .divider {
+  height: 2px;
   border: 0;
-  border-top: 2px solid $secondary;
+  background: var(--color-divider);
 }

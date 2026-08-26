@@ -1,0 +1,93 @@
+@use "@styles/variables" as *;
+
+/* A heading in a fixed left column, the content beside it. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 24px clamp(24px, 5vw, 72px);
+  padding: 48px 0;
+}
+
+.rowHeading {
+  flex: 0 0 200px;
+  margin: 0;
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.rowBody {
+  flex: 1 1 400px;
+}
+
+.role {
+  padding-bottom: 28px;
+
+  & + & {
+    @include rule(top);
+
+    padding: 28px 0 0;
+  }
+}
+
+.roleTitle {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: var(--font-heading-weight);
+  line-height: 24px;
+}
+
+.rolePeriod {
+  margin: 6px 0 12px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-60);
+}
+
+.roleBody {
+  max-width: 56ch;
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 26px;
+  color: var(--color-text-82);
+}
+
+.schools {
+  display: grid;
+  gap: 20px;
+}
+
+.schoolTitle {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: var(--font-heading-weight);
+  line-height: 22px;
+}
+
+.schools .rolePeriod {
+  margin: 6px 0 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.contact {
+  padding-bottom: 56px;
+}
+
+.contactList {
+  display: grid;
+  gap: 12px;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.languages {
+  color: var(--color-text-70);
+}

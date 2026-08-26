@@ -1,0 +1,17 @@
+.gallery {
+  padding: 40px 0;
+  // Masonry by columns — each render keeps its own proportion rather than
+  // being cropped into a uniform cell.
+  columns: 3 300px;
+  column-gap: 2px;
+}
+
+.render {
+  width: 100%;
+  height: auto;
+  margin-bottom: 2px;
+}
+
+.next {
+  padding-bottom: 40px;
+}
