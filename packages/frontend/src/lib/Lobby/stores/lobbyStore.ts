@@ -177,7 +177,7 @@ export const useLobbyStore = create<LobbyStore>((set, get) => ({
 
     const { game, board, players, gameScore } = createGame(gameType, data.id);
 
-    await board.initBoard();
+    board.initBoard();
 
     set({
       game,

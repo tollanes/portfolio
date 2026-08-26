@@ -2,7 +2,6 @@ import { Tile, AbstractTile } from "@lib/BoardGame/Tile";
 import { Position, BoardPosition } from "@lib/BoardGame/Position";
 import { Piece } from "@lib/BoardGame/Piece";
 import { action, makeObservable, observable } from "mobx";
-import { GamePiece } from "@portfolio/db";
 
 export interface Board {
   get width(): number;
@@ -15,7 +14,7 @@ export interface Board {
   addPiece(piece: Piece): void;
   removePiece(piece: Piece): void;
 
-  initBoard(pieces?: GamePiece[]): Promise<boolean>;
+  initBoard(): void;
   inBounds(position: Position): boolean;
   isValidPosition(position: Position): boolean;
   selectPiece(piece: Piece): void;
@@ -84,12 +83,8 @@ export class AbstractBoard implements Board {
     this.boardPieces = this.boardPieces.filter((p) => p !== piece);
   }
 
-  public initBoard(pieces?: GamePiece[]): Promise<boolean> {
-    throw new Error(`Method not implemented. ${JSON.stringify(pieces)}`);
-  }
-
-  public async initBoardFromDatabase(pieces: GamePiece[]): Promise<boolean> {
-    throw new Error(`Method not implemented. ${JSON.stringify(pieces)}`);
+  public initBoard(): void {
+    throw new Error("Method not implemented.");
   }
 
   public inBounds(position: Position): boolean {

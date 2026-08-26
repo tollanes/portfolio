@@ -3,15 +3,13 @@ import { Board } from "@lib/BoardGame/Board";
 import { Player } from "@lib/BoardGame/Player";
 import { Move, AbstractMove } from "@lib/BoardGame/Move";
 import { GameScore } from "@lib/BoardGame/GameScore";
-import { movePieceAction } from "@lib/BoardGame/actions/movePiece";
 
 export interface Game {
   get board(): Board;
   get players(): Player[];
   get currentPlayer(): Player;
   get winner(): Player | undefined;
-  movePiece(from: Position, to: Position, saveMove: boolean): void;
-  saveMove(from: Position, to: Position): void;
+  movePiece(from: Position, to: Position): void;
   undoMove(): void;
   redoMove(): void;
   reset(): void;
@@ -50,25 +48,16 @@ export class AbstractGame implements Game {
     throw new Error("Method not implemented.");
   }
 
-  public async movePiece(from: Position, to: Position, saveMove = true): Promise<void> {
-    if (!this.board.selectedPiece?.possibleMoves.some((move) => move.to.equals(to))) {
+  public movePiece(from: Position, to: Position): void {
+    const isLegal = this.board.selectedPiece?.possibleMoves.some((move) => move.to.equals(to));
+
+    if (!isLegal || !this.board.movePiece(from, to)) {
       return;
     }
 
-    // Add chess move to list at current index
+    // Record the move at the current index, dropping any moves that were undone
     this.gameMoves.splice(this.gameMovesIndex, this.gameMoves.length - this.gameMovesIndex, new AbstractMove(from, to));
     this.gameMovesIndex++;
-    const moveResult = this.board.movePiece(from, to);
-
-    if (moveResult && saveMove) {
-      await this.saveMove(from, to);
-      // Add score to current player
-      // this.gameScore.addScore(this.currentPlayer, moveResult.score);
-    }
-  }
-
-  async saveMove(from: Position, to: Position) {
-    await movePieceAction(this.gameId, 1, from.currentPosition, to.currentPosition);
   }
 
   public undoMove(): void {
