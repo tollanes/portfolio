@@ -5,7 +5,7 @@ import { createContext, ReactNode, useCallback, useContext, useMemo, useReducer 
 import { Color, GameStatus, PieceInfo, PlacedPiece, SquareId } from "@lib/games/types";
 import { ChessPly, PromotionPiece } from "@lib/games/chess/types";
 import { placedPieces } from "@lib/games/chess/position";
-import { randomPly } from "@lib/games/chess/engine";
+import { choosePly } from "@lib/games/chess/engine";
 import {
   ChessSessionState,
   chessSessionReducer,
@@ -33,7 +33,7 @@ export interface ChessSessionValue extends ChessSessionState {
   redo: () => void;
   reset: () => void;
   /** One ambient self-play ply. The caller owns the timer. */
-  playRandom: () => void;
+  autoPlay: () => void;
 }
 
 const ChessSessionContext = createContext<ChessSessionValue | null>(null);
@@ -54,8 +54,8 @@ export const ChessSession = ({ children }: { children: ReactNode }) => {
   const redo = useCallback(() => dispatch({ type: "redo" }), []);
   const reset = useCallback(() => dispatch({ type: "reset" }), []);
 
-  const playRandom = useCallback(() => {
-    const ply = randomPly(state.position);
+  const autoPlay = useCallback(() => {
+    const ply = choosePly(state.position);
 
     if (ply) {
       dispatch({ type: "move", ply });
@@ -80,9 +80,9 @@ export const ChessSession = ({ children }: { children: ReactNode }) => {
       undo,
       redo,
       reset,
-      playRandom
+      autoPlay
     }),
-    [state, select, clearSelection, move, promote, cancelPromotion, undo, redo, reset, playRandom]
+    [state, select, clearSelection, move, promote, cancelPromotion, undo, redo, reset, autoPlay]
   );
 
   return <ChessSessionContext.Provider value={value}>{children}</ChessSessionContext.Provider>;
