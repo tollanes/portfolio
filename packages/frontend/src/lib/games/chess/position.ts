@@ -61,8 +61,15 @@ export const initialPosition = (): ChessPosition => {
   };
 };
 
+/**
+ * Sorted by piece id, not by square. A moved piece is re-keyed to the end of the
+ * squares object, and an unstable order makes React reorder — and R3F re-attach
+ * — the meshes on every ply.
+ */
 export const placedPieces = (position: ChessPosition): PlacedPiece[] =>
-  Object.entries(position.squares).map(([square, piece]) => ({ ...piece, square }));
+  Object.entries(position.squares)
+    .map(([square, piece]) => ({ ...piece, square }))
+    .sort((a, b) => a.id.localeCompare(b.id));
 
 export const findKing = (position: ChessPosition, color: Color): SquareId | null => {
   for (const [square, piece] of Object.entries(position.squares)) {
