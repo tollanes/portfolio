@@ -2,7 +2,7 @@
 
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { Vector3 } from "three";
+import { Euler, Vector3 } from "three";
 import { useState } from "react";
 
 import StandardMesh from "@components/3D/StandardMesh";
@@ -13,6 +13,12 @@ import { PieceInfo } from "@lib/games/types";
  * A piece mesh at a point in the scene. It knows nothing about squares or whose
  * turn it is — the board and the captured shelf decide where it stands.
  */
+/** The models face up the board, so black turns to meet white. */
+const FACING: Record<string, Euler> = {
+  White: new Euler(0, 0, 0),
+  Black: new Euler(0, Math.PI, 0)
+};
+
 const ChessPiece = ({
   piece,
   position,
@@ -51,6 +57,7 @@ const ChessPiece = ({
       onClick={onClick}
       gltf={gltf}
       position={position}
+      rotation={FACING[piece.color]}
       material={material()}
     />
   );
