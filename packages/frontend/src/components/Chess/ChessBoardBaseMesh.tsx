@@ -4,7 +4,7 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import StandardMesh from "@components/3D/StandardMesh";
-import { woodDark } from "@lib/BoardGame/Materials";
+import { woodDark } from "@components/3D/materials";
 
 const ChessBoardBaseMesh = () => {
   const gltf = useLoader(GLTFLoader, "/models/ChessTable.glb");

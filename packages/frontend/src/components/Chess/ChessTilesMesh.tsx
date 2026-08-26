@@ -1,21 +1,18 @@
 "use client";
 
 import ChessTileMesh from "@components/Chess/ChessTileMesh";
-import { useContext } from "react";
-import { ChessContext } from "@components/Chess/chessProvider";
+import { BOARD, toSquare } from "@lib/games/chess/position";
 
-const ChessTilesMesh = () => {
-  const { board } = useContext(ChessContext);
+const squares = Array.from({ length: BOARD.height }, (_, y) =>
+  Array.from({ length: BOARD.width }, (_, x) => toSquare({ x, y }))
+).flat();
 
-  return (
-    <group position={[-0.6, 0, -0.6]}>
-      {board?.tiles?.flatMap((row, rowIndex) => {
-        return row.map((tile, columnIndex) => {
-          return <ChessTileMesh key={`${rowIndex}-${columnIndex}`} tile={tile} />;
-        });
-      })}
-    </group>
-  );
-};
+const ChessTilesMesh = () => (
+  <group position={[-0.6, 0, -0.6]}>
+    {squares.map((square) => (
+      <ChessTileMesh key={square} square={square} />
+    ))}
+  </group>
+);
 
 export default ChessTilesMesh;

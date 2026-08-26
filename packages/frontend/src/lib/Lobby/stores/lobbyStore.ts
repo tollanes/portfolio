@@ -4,19 +4,10 @@ import { joinLobbyAction } from "@lib/Lobby/actions/joinLobby";
 import { leaveLobbyAction } from "@lib/Lobby/actions/leaveLobby";
 import { createGameAction } from "@lib/BoardGame/actions/createGame";
 import { closeGameAction } from "@lib/BoardGame/actions/closeGame";
-import { Lobby, User, Game, GamePiece, GameTypes } from "@portfolio/db";
+import { Lobby, User, Game, GameTypes } from "@portfolio/db";
 import { JoinStatus, LobbyStatus } from "@lib/Lobby/enums";
 import { ChatMessageType } from "@lib/Lobby/Chat/types";
 import { LobbyType } from "@lib/Lobby/types";
-import { AbstractGame } from "@/lib/BoardGame/Game";
-import { AbstractBoard } from "@lib/BoardGame/Board";
-import { AbstractPlayer } from "@lib/BoardGame/Player";
-import { AbstractGameScore } from "@lib/BoardGame/GameScore";
-import ChessBoard from "@lib/Chess/ChessBoard";
-import { PieceColor } from "@lib/BoardGame/Piece";
-import ChessGame from "@lib/Chess/ChessGame";
-import { createChessGame } from "@lib/Chess/utils/createChessGame";
-import { createGame } from "@lib/BoardGame/utils";
 
 interface LobbyStore {
   // Lobby State
@@ -42,21 +33,9 @@ interface LobbyStore {
   // Game State
   currentGame: Game | null;
   currentGameType: GameTypes | null;
-  currentPieces: GamePiece[] | null;
   setCurrentGame: (game: Game | null) => void;
-  setCurrentPieces: (pieces: GamePiece[] | null) => void;
   createGame: (gameType: GameTypes) => Promise<boolean>;
   closeGame: () => Promise<void>;
-
-  // Board Game State
-  game: AbstractGame | null;
-  board: AbstractBoard | null;
-  players: AbstractPlayer[] | null;
-  gameScore: AbstractGameScore | null;
-  setGame: (game: AbstractGame | null) => void;
-  setBoard: (board: AbstractBoard | null) => void;
-  setPlayers: (players: AbstractPlayer[] | null) => void;
-  setGameScore: (score: AbstractGameScore | null) => void;
 }
 
 export const useLobbyStore = create<LobbyStore>((set, get) => ({
@@ -128,7 +107,7 @@ export const useLobbyStore = create<LobbyStore>((set, get) => ({
     }
     set({
       currentLobby: null,
-      players: [],
+      lobbyMembers: [],
       joinStatus: JoinStatus.None
     });
   },
@@ -154,11 +133,8 @@ export const useLobbyStore = create<LobbyStore>((set, get) => ({
   ////////////////////////////////////////////////////////////////////////////////////
   currentGame: null,
   currentGameType: null,
-  currentPieces: null,
 
   setCurrentGame: (game) => set({ currentGame: game }),
-
-  setCurrentPieces: (pieces) => set({ currentPieces: pieces }),
 
   createGame: async (gameType: GameTypes) => {
     const { currentLobby } = get();
@@ -175,17 +151,6 @@ export const useLobbyStore = create<LobbyStore>((set, get) => ({
 
     set({ currentGame: data });
 
-    const { game, board, players, gameScore } = createGame(gameType, data.id);
-
-    board.initBoard();
-
-    set({
-      game,
-      board,
-      players,
-      gameScore
-    });
-
     return true;
   },
 
@@ -198,22 +163,6 @@ export const useLobbyStore = create<LobbyStore>((set, get) => ({
       console.error("Game not found");
       return;
     }
-    set({ currentGame: null, currentPieces: null });
-  },
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  // Board Game State
-  ////////////////////////////////////////////////////////////////////////////////////
-  game: null,
-  board: null,
-  players: null,
-  gameScore: null,
-
-  setGame: (game) => set({ game }),
-
-  setBoard: (board) => set({ board }),
-
-  setPlayers: (players) => set({ players }),
-
-  setGameScore: (score) => set({ gameScore: score })
+    set({ currentGame: null });
+  }
 }));

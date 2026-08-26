@@ -1,24 +1,35 @@
+"use client";
+
+import { Vector3 } from "three";
+
 import ChessPiece from "@components/Chess/ChessPiece";
-import { useContext } from "react";
-import { ChessContext } from "@components/Chess/chessProvider";
-import { observer } from "mobx-react-lite";
+import { useChessSession } from "@components/Chess/ChessSession";
+import { toCoord } from "@lib/games/chess/position";
+import { SquareId } from "@lib/games/types";
 
-const ChessPieces = observer(() => {
-  const { board } = useContext(ChessContext);
+/** Same mapping the old board used: world x from rank, world z from file. */
+export const squareToVector = (square: SquareId): Vector3 => {
+  const { x, y } = toCoord(square);
 
-  if (!board) {
-    return null;
-  }
+  return new Vector3(y / 5 - 0.7, 0, x / 5 - 0.7);
+};
 
-  board.debugPrint();
+const ChessPieces = () => {
+  const { pieces, selected, select } = useChessSession();
 
   return (
     <>
-      {board.pieces.map((piece, index) => {
-        return <ChessPiece key={index} piece={piece} />;
-      })}
+      {pieces.map((piece) => (
+        <ChessPiece
+          key={piece.id}
+          piece={piece}
+          position={squareToVector(piece.square)}
+          isSelected={selected === piece.square}
+          onClick={() => select(piece.square)}
+        />
+      ))}
     </>
   );
-});
+};
 
 export default ChessPieces;

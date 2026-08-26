@@ -1,50 +1,32 @@
-import { useContext } from "react";
-import { ChessContext } from "@components/Chess/chessProvider";
-import { PieceColor } from "@lib/BoardGame/Piece";
+"use client";
+
+import { Vector3 } from "three";
+
 import ChessPiece from "@components/Chess/ChessPiece";
-import { BoardPosition } from "@lib/BoardGame/Position";
-import { observer } from "mobx-react-lite";
+import { useChessSession } from "@components/Chess/ChessSession";
 
-const CapturedPieces = observer(() => {
-  const { game, board } = useContext(ChessContext);
+/** Captured pieces stand on two shelves beside the board. */
+const CapturedPieces = () => {
+  const { captured } = useChessSession();
 
-  const whitePieces = board?.capturedPieces.filter((piece) => piece.color === PieceColor.White);
-  const blackPieces = board?.capturedPieces.filter((piece) => piece.color === PieceColor.Black);
-
-  whitePieces?.forEach((piece) => {
-    piece.setPosition(new BoardPosition(0, 0));
-  });
-
-  blackPieces?.forEach((piece) => {
-    piece.setPosition(new BoardPosition(0, 0));
-  });
-
-  console.log("white : ", whitePieces);
-  console.log("black : ", blackPieces);
+  const shelves = [
+    { color: "White" as const, z: -1.1 },
+    { color: "Black" as const, z: 1.1 }
+  ];
 
   return (
     <group position={[-0.5, -0.2, 0.7]}>
-      <group position={[0, 0, -1.1]}>
-        {whitePieces?.map((piece, index) => {
-          return (
-            <group key={index} position={[index / 6, 0, 0]}>
-              <ChessPiece piece={piece} />;
-            </group>
-          );
-        })}
-      </group>
-
-      <group position={[0, 0, 1.1]}>
-        {blackPieces?.map((piece, index) => {
-          return (
-            <group key={index} position={[index / 6, 0, 0]}>
-              <ChessPiece piece={piece} />;
-            </group>
-          );
-        })}
-      </group>
+      {shelves.map(({ color, z }) => (
+        <group key={color} position={[0, 0, z]}>
+          {captured
+            .filter((piece) => piece.color === color)
+            .map((piece, index) => (
+              <ChessPiece key={piece.id} piece={piece} position={new Vector3(index / 6, 0, 0)} />
+            ))}
+        </group>
+      ))}
     </group>
   );
-});
+};
 
 export default CapturedPieces;
