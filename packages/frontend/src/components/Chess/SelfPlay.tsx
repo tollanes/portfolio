@@ -15,12 +15,23 @@ const MAX_PLIES = 240;
  * position), which keeps a constant gap between moves rather than a metronome
  * that can fire mid-animation.
  */
-const SelfPlay = ({ moveDelay = 1400, restartDelay = 5000 }: { moveDelay?: number; restartDelay?: number }) => {
+const SelfPlay = ({
+  moveDelay = 1400,
+  restartDelay
+}: {
+  moveDelay?: number;
+  /** Omit to leave a finished game on the board for the Reset button. */
+  restartDelay?: number;
+}) => {
   const { autoPlay, reset, status, selected, plies } = useChessSession();
 
   useEffect(() => {
     // Insurance against a game that will not resolve itself.
     if (status.state !== "playing" || plies.length >= MAX_PLIES) {
+      if (restartDelay === undefined) {
+        return;
+      }
+
       const restart = setTimeout(reset, restartDelay);
 
       return () => clearTimeout(restart);
