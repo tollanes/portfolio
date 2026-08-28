@@ -22,9 +22,9 @@ export default function Home() {
           </h1>
 
           <p className={styles.heroLede}>
-            Fullstack developer in {profile.location}. For the last five years I have owned systems end to end: C and
-            Python firmware on custom PCBs, the cloud that manages them, and the Next.js interfaces people actually look
-            at. I trained as a 3D artist first, which is part of why the interfaces come out finished.
+            Fullstack developer in {profile.location}. For the last five years I have owned systems end to end: from C++
+            and Python firmware on custom PCBs, to the cloud that manages them, and the Next.js interfaces people
+            actually look at. I studied as a 3D artist at first, which is why the interfaces come out polished.
           </p>
 
           <p className={styles.heroLede}>{profile.role}. Open to new work, remote first.</p>

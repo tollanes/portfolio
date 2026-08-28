@@ -1,0 +1,33 @@
+// Masonry by columns — each render keeps its own proportion rather than being
+// cropped into a uniform cell.
+.gallery {
+  columns: 3 300px;
+  column-gap: 2px;
+}
+
+.tile {
+  display: block;
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  // A 2px accent frame drawn inside the edge, in keeping with the rules the
+  // rest of the page is built from.
+  &:hover img,
+  &:focus-visible img {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}

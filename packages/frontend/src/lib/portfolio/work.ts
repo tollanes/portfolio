@@ -138,7 +138,7 @@ export const caseStudies: CaseStudy[] = [
     facts: [
       { label: "Role", value: "Systems developer, Q-Light AS" },
       { label: "Year", value: "2021 – 2024" },
-      { label: "Firmware", value: "C, Python, OTA, Modbus, MQTT, OCPP 1.6" },
+      { label: "Firmware", value: "C++, Python, OTA, Modbus, MQTT, OCPP 1.6" },
       { label: "Cloud", value: "Next.js, TypeScript" }
     ],
     blocks: [

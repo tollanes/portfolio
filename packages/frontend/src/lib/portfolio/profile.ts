@@ -20,7 +20,7 @@ export const capabilities = [
   {
     kicker: "Devices",
     title: "Firmware on custom hardware",
-    body: "C and Python on PCB prototypes through to production. OTA updates, Modbus, MQTT, a working OCPP 1.6 client, Zigbee."
+    body: "C++ and Python on PCB prototypes through to production. OTA updates, Modbus, MQTT, a working OCPP 1.6 client, Zigbee."
   },
   {
     kicker: "Platform",
@@ -38,7 +38,7 @@ export const capabilities = [
 export const alsoShipped = [
   {
     title: "QUDO / QUDO Bridge",
-    body: "Firmware updates and testing for the QUDO smart solution, with continued development in Python and C."
+    body: "Firmware updates and testing for the QUDO smart solution, with continued development in Python and C++."
   },
   {
     title: "QUDO Homey app",
@@ -84,7 +84,7 @@ export const skills = [
   "Vue",
   "Node.js",
   "Python",
-  "C / C++",
+  "C++",
   "MQTT",
   "Modbus",
   "Zigbee",

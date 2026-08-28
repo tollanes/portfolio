@@ -1,0 +1,29 @@
+.button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-divider);
+
+  .button:hover &,
+  .button:focus-visible & {
+    border-color: var(--color-accent);
+  }
+}
+
+.caption {
+  margin-top: var(--space-2);
+  font-size: 11px;
+  color: var(--color-text-55);
+}

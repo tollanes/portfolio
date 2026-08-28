@@ -1,0 +1,97 @@
+.dialog {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-bg);
+
+  // ::backdrop does not reliably inherit custom properties, so the scrim is
+  // written out here as the literal value of --color-neutral-900.
+  &::backdrop {
+    background: color-mix(in srgb, #2d2b2b 95%, transparent);
+  }
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  height: 100%;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 95%, transparent);
+  cursor: zoom-out;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid color-mix(in srgb, var(--color-bg) 35%, transparent);
+  cursor: auto;
+}
+
+.count {
+  margin-right: auto;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: var(--font-heading-weight);
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--color-bg) 65%, transparent);
+}
+
+.action {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-bg) 75%, transparent);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-bg);
+  }
+
+  &:focus-visible {
+    outline-color: var(--color-bg);
+  }
+}
+
+/* The counter's auto margin pushes the actions to the right edge. With a single
+   image there is no counter, so Close simply sits flush left. */
+.close {
+  color: var(--color-bg);
+}
+
+/* The image fills this box and letterboxes inside it, so it never depends on
+   its own intrinsic size to get a layout box. min-height:0 lets the box shrink
+   inside the flex column instead of overflowing the viewport. */
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  cursor: auto;
+}
+
+.image {
+  object-fit: contain;
+}
+
+.caption {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  cursor: auto;
+}

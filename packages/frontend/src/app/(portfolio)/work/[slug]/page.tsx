@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { Fragment } from "react";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import styles from "./CaseStudy.module.scss";
@@ -10,6 +9,7 @@ import Content from "@components/Shared/Content";
 import Divider from "@components/Shared/Divider";
 import Kicker from "@components/Shared/Kicker";
 import PageHeader from "@components/Shared/PageHeader";
+import ZoomableFigure from "@components/Media/ZoomableFigure";
 import { caseStudies, findCaseStudy, nextAfter, type WorkBlock } from "@lib/portfolio/work";
 
 export const generateStaticParams = () => caseStudies.map((study) => ({ slug: study.slug }));
@@ -42,16 +42,7 @@ const Block = ({ block }: { block: WorkBlock }) => {
   if (block.kind === "figure") {
     return (
       <section className={styles.plate}>
-        <figure>
-          <Image
-            className={styles.screenshot}
-            src={block.image}
-            alt={block.alt}
-            sizes="(max-width: 1160px) 100vw, 1112px"
-            placeholder="blur"
-          />
-          <figcaption className={styles.caption}>{block.caption}</figcaption>
-        </figure>
+        <ZoomableFigure image={block.image} alt={block.alt} caption={block.caption} />
       </section>
     );
   }

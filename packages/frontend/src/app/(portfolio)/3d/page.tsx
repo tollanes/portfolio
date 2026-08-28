@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import styles from "./Renders.module.scss";
 import Button from "@components/Shared/Button";
 import Content from "@components/Shared/Content";
 import Divider from "@components/Shared/Divider";
+import Gallery from "@components/Media/Gallery";
 import PageHeader from "@components/Shared/PageHeader";
 import { profile } from "@lib/portfolio/profile";
 import { renders } from "@lib/portfolio/renders";
@@ -21,7 +21,7 @@ export default function Renders() {
       <Content>
         <PageHeader
           title="3D work"
-          lede="Architectural and product visualisation. I studied 3D design, animation and game design at Noroff, then completed more than fifty visualisations for major clients while at Q-Light. Shown in colour, because that is the work."
+          lede="Architectural and product visualisation. I studied 3D design, animation and game design at Noroff, then completed more than fifty visualisations for major clients while at Q-Light."
           actions={
             <Button variant="primary" href={profile.artstation} newTab>
               Full portfolio on ArtStation
@@ -32,16 +32,7 @@ export default function Renders() {
         <Divider />
 
         <section className={styles.gallery}>
-          {renders.map((render) => (
-            <Image
-              key={render.image.src}
-              className={styles.render}
-              src={render.image}
-              alt={render.alt}
-              sizes="(max-width: 640px) 100vw, 380px"
-              placeholder="blur"
-            />
-          ))}
+          <Gallery items={renders} />
         </section>
 
         <div className={styles.next}>

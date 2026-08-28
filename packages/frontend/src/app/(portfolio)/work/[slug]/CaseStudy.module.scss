@@ -60,18 +60,6 @@
   }
 }
 
-.screenshot {
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--color-divider);
-}
-
-.caption {
-  margin-top: var(--space-2);
-  font-size: 11px;
-  color: var(--color-text-55);
-}
-
 /* Cells held open for imagery that has not arrived yet. */
 .slots {
   padding: 48px 0;
