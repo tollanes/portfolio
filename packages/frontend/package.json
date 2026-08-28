@@ -12,6 +12,7 @@
     "@portfolio/db": "workspace:*",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
+    "@vercel/analytics": "^2.0.1",
     "bcrypt": "^6.0.0",
     "drizzle-orm": "^0.44.5",
     "jose": "^6.2.10",

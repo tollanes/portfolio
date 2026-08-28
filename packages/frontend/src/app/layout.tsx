@@ -3,6 +3,7 @@ import "@styles/globals.scss";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Archivo } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import Nav from "@components/Nav/Nav";
 import { UserProvider } from "@components/Auth/UserProvider";
@@ -31,6 +32,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <Nav />
           {children}
         </UserProvider>
+        <Analytics />
       </body>
     </html>
   );
