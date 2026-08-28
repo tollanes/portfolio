@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { useChessSession } from "@components/Chess/ChessSession";
+import { Color } from "@lib/games/types";
 
 /** Restart rather than watch two lone kings shuffle. */
 const MAX_PLIES = 240;
@@ -17,13 +18,16 @@ const MAX_PLIES = 240;
  */
 const SelfPlay = ({
   moveDelay = 1400,
-  restartDelay
+  restartDelay,
+  humanColor = null
 }: {
   moveDelay?: number;
   /** Omit to leave a finished game on the board for the Reset button. */
   restartDelay?: number;
+  /** The side the engine leaves alone. Null means it plays both. */
+  humanColor?: Color | null;
 }) => {
-  const { autoPlay, reset, status, selected, plies } = useChessSession();
+  const { autoPlay, reset, status, selected, plies, toMove } = useChessSession();
 
   useEffect(() => {
     // Insurance against a game that will not resolve itself.
@@ -42,10 +46,15 @@ const SelfPlay = ({
       return;
     }
 
+    // The visitor has this side. Wait for them, however long that takes.
+    if (humanColor && toMove === humanColor) {
+      return;
+    }
+
     const next = setTimeout(autoPlay, moveDelay);
 
     return () => clearTimeout(next);
-  }, [autoPlay, reset, status.state, selected, plies.length, moveDelay, restartDelay]);
+  }, [autoPlay, reset, status.state, selected, plies.length, moveDelay, restartDelay, humanColor, toMove]);
 
   return null;
 };
