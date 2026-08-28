@@ -87,6 +87,15 @@ const ChessWidget = ({
     return `${toMove} to move`;
   };
 
+  const hint = () => {
+    if (!isOver) {
+      return `${plies.length} moves`;
+    }
+
+    // An ambient game clears itself; a game someone is playing waits for them.
+    return isPlaying ? "Reset to play again" : "Restarting";
+  };
+
   const marker = (
     <span className={`${styles.marker} ${isOver ? styles.over : styles[toMove.toLowerCase()]}`} aria-hidden />
   );
@@ -159,7 +168,7 @@ const ChessWidget = ({
         </div>
 
         <div className={styles.footer}>
-          <span className={styles.hint}>{isOver ? "Reset to play again" : `${plies.length} moves`}</span>
+          <span className={styles.hint}>{hint()}</span>
 
           {/* The keyboard route to what clicking the board does. */}
           <button
